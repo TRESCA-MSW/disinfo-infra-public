@@ -16,7 +16,9 @@ class NetworkInfo:
     
     def __init__(self):
         resource_package = __name__  
+        print(resource_package)
         af = pkg_resources.resource_filename(resource_package, '/{0}'.format(ASN_DB))
+        print(af)
         self.asndb = pyasn.pyasn(af)
         gf = pkg_resources.resource_filename(resource_package, '/{0}'.format(GEO_DB))
         self.geodb = geoip2.database.Reader(gf)

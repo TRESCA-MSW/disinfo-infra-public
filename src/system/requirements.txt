@@ -11,11 +11,10 @@ future==0.17.1
 geoip2==2.9.0
 idna==2.8
 lxml==4.2.5
-maxminddb==1.4.1
+maxminddb
 numpy==1.15.4
 oauthlib==2.1.0
 pandas==0.23.4
-pkg-resources==0.0.0
 praw==6.0.0
 prawcore==1.0.0
 pyasn==1.6.0b1

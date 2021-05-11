@@ -105,7 +105,6 @@ class DisinfoRawDataDB(DisinfoDB):
     @staticmethod
     def init_from_config_file(cf, section='postgresql'):
         params = DisinfoDB._read_config_file(cf, section=section)
-        
         return DisinfoRawDataDB(params['database'], 
                                 params['user'], 
                                 params['password'],

@@ -2,6 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+import sys
+
+
+
 
 from disinfo_net.orchestrate.conductor import Conductor
 from disinfo_net.pipe.reddit_pipe import RedditPipe
@@ -19,10 +23,11 @@ def main():
     parser.add_argument('-ddt', '--delete_database_table', action='store_true')
 
     # firehose options
-    parser.add_argument('-rcf', '--reddit_cred_file', default=None)
-    parser.add_argument('-tcf', '--twitter_cred_file', default=None)
+    parser.add_argument('-rcf', '--reddit_cred_file', default=None,action='store_true')
+    parser.add_argument('-tcf', '--twitter_cred_file', default=None,action='store_true')
     parser.add_argument('-cp', '--certificate_pipe', action='store_true')
     parser.add_argument('-dtf', '--domaintools_cred_file', default=None)
+    # domaintools is not free...
 
     # classifier if we want to classify data we get
     parser.add_argument('-nt', '--num_threads', type=int, default=1)
@@ -42,6 +47,7 @@ def main():
         c.add_firehose_pipe(r, 'reddit')
 
     if args.twitter_cred_file:
+        print("twitter-.......")
         t = TwitterPipe(args.twitter_cred_file)
         c.add_firehose_pipe(t, 'twitter')
 

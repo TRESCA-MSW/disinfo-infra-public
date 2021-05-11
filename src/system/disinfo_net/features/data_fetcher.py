@@ -28,11 +28,12 @@ class RawDataFetcher:
         return raw_data
 
     @staticmethod
-    def fetch_whois(domain):
+    def fetch_whois(domain):        
+        print("DOMAIN="+domain)
         try:
             obj = whois.whois(domain)
-            raw_data = obj.text
-        except Exception as e:
+            raw_data = obj.text            
+        except Exception as e:    
             raw_data = None
 
         return raw_data
@@ -40,18 +41,22 @@ class RawDataFetcher:
     @staticmethod
     def fetch_html(domain):
         try:
-            raw_data = requests.get('http://' + domain, timeout=10).text
+            raw_data = requests.get('http://' + domain, timeout=10).text            
         except Exception as e:
+            print(e)
             raw_data = None
 
         return raw_data
 
     @staticmethod
     def fetch_dns(domain):
+        print("DNS for"+domain)
         try:
             raw_data = dns.resolver.query(domain, 'A').rrset[0]
             raw_data = str(raw_data)
+            print(raw_data)
         except Exception as e:
+            print(e)
             raw_data = None
 
         return raw_data

@@ -1,0 +1,6 @@
+[postgresql]
+database: disinfo
+user: disinfo_darg
+password: elxusai
+host: localhost
+

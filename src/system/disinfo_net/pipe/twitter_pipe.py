@@ -1,4 +1,5 @@
 from time import sleep
+import os 
 
 import tweepy
 
@@ -12,20 +13,31 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
         self.total_tweets = 0
 
     def initialize_connection(self, cred_file):
-        creds = self.load_credentials(cred_file)
-        auth = tweepy.OAuthHandler(creds['consumer_key'],
-                                   creds['consumer_secret'])
-        auth.set_access_token(creds['access_token'],
-                              creds['access_token_secret'])
+        #creds = self.load_credentials(cred_file)
+        C_KEY = os.environ.get('TWITTER_CONSUMER_KEY')
+        C_SECRET = os.environ.get('TWITTER_CONSUMER_SECRET')
+        A_TOKEN = os.environ.get('TWITTER_TOKEN')
+        A_TOKEN_SECRET = os.environ.get('TWITTER_SECRET')
+
+        auth = tweepy.OAuthHandler(C_KEY, C_SECRET)
+        auth.set_access_token(A_TOKEN, A_TOKEN_SECRET)
+
         api = tweepy.API(auth)
+        
+        #auth = tweepy.OAuthHandler(creds['consumer_key'],
+        #                           creds['consumer_secret'])
+        #auth.set_access_token(creds['access_token'],
+        #                      creds['access_token_secret'])
+        #api = tweepy.API(auth)
 
         return api
 
     def run(self):
         try:
             myStream = tweepy.Stream(auth=self.api.auth, listener=self)
-            myStream.filter(track=['news', 'filter:links'])
+            myStream.filter(track=['news', 'filter:links'])            
         except Exception as e:
+            print(e)
             sleep(60 * 60)
 
     def on_status(self, status):
@@ -39,6 +51,8 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
             if stripped_url == 'twitter.com':
                 continue
 
+            print("Twitter stripped="+stripped_url)
+            print("Twitter-->post_id="+post_id)
             self.queue.put((stripped_url, tweet_id, 'twitter'))
 
     def on_error(self, status_code):
