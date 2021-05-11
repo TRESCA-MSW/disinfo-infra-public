@@ -2,6 +2,7 @@ from multiprocessing import Process
 
 from disinfo_net.features.data_fetcher import RawDataFetcher
 from disinfo_net.postgres.pg import DisinfoRawDataDB
+from sty import fg, bg, ef, rs
 
 class DataFetcherThread(Process):
     def __init__(self, tid, firehose, db_init_file):
@@ -26,8 +27,12 @@ class DataFetcherThread(Process):
         while True:
             try:
                 (domain, post_id, platform) = self.firehose.get()
-                if self.db.check_domain_in_db(domain):
-                    continue 
+                if(platform!="reddit"):                     
+                    if self.db.check_domain_in_db(domain):
+                        continue
+                else:
+                    foo = fg.red + 'This is red text!' + fg.rs
+                    print(foo)
                 cert, whois, html, dns = self.fetch_raw_data_for_domain(domain)
                 success = self.db.insert_domain(domain, certificate=cert,
                                                 whois=whois, html=html, dns=dns,

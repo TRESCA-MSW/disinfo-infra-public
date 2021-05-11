@@ -34,6 +34,8 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
 
     def run(self):
         try:
+            #@todo introduce a more elaborated query, based on specific hashtags -->hashtaglist 
+            #stream.filter(track=hash_tag_list)
             myStream = tweepy.Stream(auth=self.api.auth, listener=self)
             myStream.filter(track=['news', 'filter:links'])            
         except Exception as e:
@@ -51,8 +53,8 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
             if stripped_url == 'twitter.com':
                 continue
 
-            print("Twitter stripped="+stripped_url)
-            print("Twitter-->post_id="+post_id)
+            #print("Twitter stripped="+stripped_url)
+            #print("Twitter-->post_id="+tweet_id)
             self.queue.put((stripped_url, tweet_id, 'twitter'))
 
     def on_error(self, status_code):

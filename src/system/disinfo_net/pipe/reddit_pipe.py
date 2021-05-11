@@ -39,8 +39,8 @@ class RedditPipe(DomainPipe):
                     stripped_url = UrlParser.strip_url(url) 
                     if stripped_url == 'reddit.com' or stripped_url == 'redd.it':
                         continue
-                    print("stripped="+stripped_url)
-                    print("Reddit-->post_id="+post_id)
+                    #print("Reddit stripped="+stripped_url)
+                    #print("Reddit-->post_id="+post_id)
                     self.queue.put((stripped_url, post_id, 'reddit'))                    
             except Exception as e:
                 print(e)
