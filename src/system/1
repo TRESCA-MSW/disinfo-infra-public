@@ -1,0 +1,4 @@
+#!/bin/bash
+
+bin/disinfo_net_data_fetch.py -tcf -rcf -cp -nt 4  disinfo.cfg
+

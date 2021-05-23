@@ -27,6 +27,7 @@ class DataFetcherThread(Process):
         while True:
             try:
                 (domain, post_id, platform) = self.firehose.get()
+                #TODO eliminar esta parte: es código de depuración 
                 if(platform!="reddit"):                     
                     if self.db.check_domain_in_db(domain):
                         continue

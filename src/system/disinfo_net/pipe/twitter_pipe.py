@@ -1,6 +1,10 @@
 from time import sleep
 import os 
-
+import sys
+from os.path import dirname, abspath
+d = dirname(dirname(abspath(__file__)))
+sys.path.insert(0, d)
+import logger
 import tweepy
 
 from disinfo_net.pipe.domain_pipe import DomainPipe
@@ -11,6 +15,8 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
         super().__init__()
         self.api = self.initialize_connection(cred_file)
         self.total_tweets = 0
+        self.mylogger = logger.get_logger(__name__)
+
 
     def initialize_connection(self, cred_file):
         #creds = self.load_credentials(cred_file)
@@ -34,7 +40,7 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
 
     def run(self):
         try:
-            #@todo introduce a more elaborated query, based on specific hashtags -->hashtaglist 
+            #TODO introduce a more elaborated query, based on specific hashtags -->hashtaglist 
             #stream.filter(track=hash_tag_list)
             myStream = tweepy.Stream(auth=self.api.auth, listener=self)
             myStream.filter(track=['news', 'filter:links'])            
@@ -46,6 +52,7 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
         tweet_id = status.id_str
         for url_obj in status.entities['urls']:
             self.total_tweets += 1
+            self.mylogger.debug("#tweets="+str(self.total_tweets))
             url = url_obj['expanded_url']
 
             unshortened_url = self.url_parser.unshorten_url(url)
