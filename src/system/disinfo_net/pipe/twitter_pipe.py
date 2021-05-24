@@ -67,6 +67,7 @@ class TwitterPipe(DomainPipe, tweepy.StreamListener):
             terms = ', '.join(['"%s"' % w for w in self.terms])            
             #TODO antes track=['news','filter:links']. Esto funciona, pero no con la lista de términos
             #myStream.filter(track=[terms,"filter:links"],is_async=True)   
+            #TODO incluir la lista de desinformadores de mi cuenta de Twitter
             myStream.filter(track=['news','@wakeupfromcovid','@corona_timo','@crismartinj','@JackPosobiec', '@RepMTG','@JosehWolf', '@dangarcar', '@InProportion2','filter:links'])
             
         except Exception as e:
