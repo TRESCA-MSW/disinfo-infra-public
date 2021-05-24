@@ -27,10 +27,14 @@ def main():
     parser.add_argument('-tcf', '--twitter_cred_file', default=None,action='store_true')
     parser.add_argument('-cp', '--certificate_pipe', action='store_true')
     parser.add_argument('-dtf', '--domaintools_cred_file', default=None)
-    # domaintools is not free...
+    #FIXME domaintools is not free...
 
     # classifier if we want to classify data we get
     parser.add_argument('-nt', '--num_threads', type=int, default=1)
+    
+
+    # terms to be searched
+    parser.add_argument('-tf','--terms_file',nargs='?',type=str,default='terms_file.txt')
     args = parser.parse_args()
 
     if args.create_database_table or args.delete_database_table:
@@ -48,7 +52,8 @@ def main():
 
     if args.twitter_cred_file:
         print("twitter-.......")
-        t = TwitterPipe(args.twitter_cred_file)
+        print(args.terms_file)
+        t = TwitterPipe(args.twitter_cred_file,args.terms_file)
         c.add_firehose_pipe(t, 'twitter')
 
     if args.certificate_pipe:
